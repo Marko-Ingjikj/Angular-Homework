@@ -1,0 +1,123 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.hotel-managment-div,
+.rooms-div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 10px;
+}
+
+.hotel-div {
+  width: 350px;
+  padding: 15px;
+  border: 1px solid black;
+}
+
+.room-div {
+  width: 350px;
+  padding: 15px;
+  border: 1px solid red;
+}
+
+.room-p {
+  color: red;
+}
+
+.available {
+  border: 1px solid greenyellow;
+}
+.available-p {
+  color: greenyellow;
+}
+
+.hotel-image,
+.room-image {
+  width: 100%;
+  height: 250px;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+.go-back-btn {
+  background-color: burlywood;
+  cursor: pointer;
+  padding: 5px;
+  margin: 10px;
+  border: 1px solid coral;
+}
+
+nav {
+  padding: 15px;
+  background-color: darkcyan;
+}
+
+nav a {
+  color: white;
+  margin: 5px;
+  font-size: 20px;
+}
+nav a:hover {
+  color: gray;
+}
+
+.btn-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.hotel-btn {
+  border: 1px solid black;
+  cursor: pointer;
+  color: white;
+  padding: 8px;
+}
+
+.edit-btn {
+  background-color: cadetblue;
+}
+
+.delete-btn {
+  background-color: crimson;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 15px;
+  width: 500px;
+}
+
+.form-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-div input {
+  width: 300px;
+  height: 20px;
+}
+
+.submit-btn {
+  width: 100px;
+  background-color: lawngreen;
+  border: 1px solid green;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+}
