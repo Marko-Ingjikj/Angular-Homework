@@ -107,6 +107,18 @@ export class HotelService {
     return this.hotels;
   }
 
+  getHotelById(hotelId: number) {
+    return this.hotels.find((hotel) => hotel.id === hotelId);
+  }
+
+  updateHotel(hotel: Hotel) {
+    const index = this.hotels.findIndex((h) => h.id == hotel.id);
+    this.hotels[index] = {
+      ...this.hotels[index],
+      ...hotel,
+    };
+  }
+
   addNewHotel(hotel: Hotel) {
     this.hotels.push(hotel);
   }

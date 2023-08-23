@@ -2,13 +2,14 @@
     <div *ngFor="let hotel of hotels" class="hotel-div">
         <a [routerLink]="['/hotel-details', hotel.id]">
             <h1>{{hotel.name}}</h1>
-            <p>location: {{hotel.address}} {{hotel.city}}-{{hotel.country}}</p>
+            <p>location: {{hotel.address}}<br> {{hotel.city}}-{{hotel.country}}</p>
             <p>stars: {{hotel.stars}}</p>
             <img src={{hotel.image}} alt="" class="hotel-image">
         </a>
         <div class="btn-div">
             <a [routerLink]="['/hotel-form',hotel.id]" class="edit-btn hotel-btn">Edit</a>
             <button class="delete-btn hotel-btn">Delete</button>
+            <a [routerLink]="['/room-form',hotel.id]" class="add-btn hotel-btn">Add Room</a>
         </div>
     </div>
 

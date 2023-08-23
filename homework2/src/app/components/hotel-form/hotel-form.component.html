@@ -44,7 +44,7 @@
 
         <p class="error"
             *ngIf="hotelForm.get('stars')?.invalid && (hotelForm.get('stars')?.touched || hotelForm.get('stars')?.dirty)">
-            {{ imageHasUrlError ? 'Stars are required' : ''}}
+            {{ starsHasErrorRequired ? 'Stars are required' : ''}}
             {{starsHasMinError ? 'Stars must be atleast 1': ''}}
             {{starsHasMaxError ? 'Stars must be 5 or bellow': ''}}
         </p>
@@ -53,7 +53,13 @@
     <div class="form-div">
         <label for="Image">Image URL:</label>
         <input type="text" id="image" formControlName="image">
+
+        <p class="error"
+            *ngIf="hotelForm.get('image')?.invalid && (hotelForm.get('image')?.touched || hotelForm.get('image')?.dirty)">
+            {{imageHasErrorRequired ? 'Image url is required' : ''}}
+            {{imageHasInvalidUrlError ? "Image must be url": ""}}
+        </p>
     </div>
 
-    <button (click)="onSubmit()" class="submit-btn">Submit</button>
+    <button (click)="onSubmit()" disabled="hotelForm.invalid" class="submit-btn">Submit</button>
 </form>
