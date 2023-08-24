@@ -61,10 +61,6 @@ export class HotelFormComponent implements OnInit {
     return this.hotelForm.get('name')?.hasError('required');
   }
 
-  get imageHasUrlError() {
-    return this.hotelForm.get('image')?.hasError('pattern');
-  }
-
   get addressHasErrorRequired() {
     return this.hotelForm.get('address')?.hasError('required');
   }

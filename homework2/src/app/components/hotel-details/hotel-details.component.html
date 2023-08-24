@@ -10,6 +10,7 @@
         <p>children {{room.children}}</p>
         <p>amenities: {{room.amenities}}</p>
         <p>available: {{room.isAvailable}}</p>
+        <a [routerLink]="['/room-form',hotelToShow?.id,room.id]" class="add-btn room-btn">Edit Room</a>
     </div>
 </div>
 

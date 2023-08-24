@@ -22,6 +22,9 @@
   width: 350px;
   padding: 15px;
   border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .room-p {
@@ -81,6 +84,14 @@ nav a:hover {
   cursor: pointer;
   color: white;
   padding: 8px;
+}
+
+.room-btn {
+  border: 1px solid black;
+  cursor: pointer;
+  color: white;
+  padding: 6px;
+  width: fit-content;
 }
 
 .edit-btn {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Room } from 'src/app/interfaces/room-interface';
 import { HotelService } from 'src/app/services/hotel.service';
 
 @Component({
@@ -29,10 +30,55 @@ export class RoomFormComponent implements OnInit {
     children: new FormControl<number>(0, [
       Validators.required,
       Validators.min(0),
+      Validators.pattern(/^-?(0|[1-9]\d*)?$/),
     ]),
-    amenities: new FormControl<string[]>([]),
+    amenities: new FormControl<string>(''),
     isAvailable: new FormControl<boolean>(false),
   });
+
+  get nameHasErrorRequired() {
+    return this.roomForm.get('name')?.hasError('required');
+  }
+
+  get descriptionHasErrorRequired() {
+    return this.roomForm.get('description')?.hasError('required');
+  }
+
+  get imageHasErrorRequired() {
+    return this.roomForm.get('image')?.hasError('required');
+  }
+
+  get imageHasInvalidUrlError() {
+    return this.roomForm.get('image')?.hasError('pattern');
+  }
+
+  get priceHasErrorRequired() {
+    return this.roomForm.get('price')?.hasError('required');
+  }
+
+  get priceHasErrorMin() {
+    return this.roomForm.get('price')?.hasError('min');
+  }
+
+  get personsHasErrorMin() {
+    return this.roomForm.get('persons')?.hasError('min');
+  }
+
+  get personsHasErrorRequired() {
+    return this.roomForm.get('persons')?.hasError('required');
+  }
+
+  get childrenHasErrorRequired() {
+    return this.roomForm.get('children')?.hasError('required');
+  }
+
+  get childrenHasErrorMin() {
+    return this.roomForm.get('children')?.hasError('min');
+  }
+
+  get amenitiesHasErrorRequired() {
+    return this.roomForm.get('amenities')?.hasError('required');
+  }
 
   constructor(
     private hotelService: HotelService,
@@ -41,8 +87,44 @@ export class RoomFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const hotelId = this.route.snapshot.params['id'];
+    const hotelId = this.route.snapshot.params['hotel-id'];
+    const roomId = this.route.snapshot.params['room-id'];
+
+    if (roomId) {
+      this.isEditing = true;
+
+      const room = this.hotelService.getRoomById(
+        Number(hotelId),
+        Number(roomId)
+      );
+
+      this.roomForm.patchValue({
+        ...room,
+        amenities: room?.amenities.join(','),
+      });
+    }
   }
 
-  onSubmit() {}
+  onSubmit() {
+    const hotelId = this.route.snapshot.params['hotel-id'];
+    const roomId = this.route.snapshot.params['room-id'];
+    const roomData = {
+      ...this.roomForm.value,
+      amenities: this.roomForm.value.amenities
+        ?.split(',')
+        .map((amenity: string) => amenity.trim()),
+    };
+
+    if (this.isEditing) {
+      this.hotelService.updateRoom(
+        Number(hotelId),
+        Number(roomId),
+        roomData as Room
+      );
+    } else {
+      this.hotelService.addNewRoom(Number(hotelId), roomData as Room);
+    }
+
+    this.router.navigate([`/hotel-details`, hotelId]);
+  }
 }

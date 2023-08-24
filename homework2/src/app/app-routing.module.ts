@@ -28,7 +28,11 @@ const routes: Routes = [
     component: HotelFormComponent,
   },
   {
-    path: 'room-form/:id',
+    path: 'room-form/:hotel-id',
+    component: RoomFormComponent,
+  },
+  {
+    path: 'room-form/:hotel-id/:room-id',
     component: RoomFormComponent,
   },
 ];

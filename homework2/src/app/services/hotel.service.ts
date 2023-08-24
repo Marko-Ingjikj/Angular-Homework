@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Hotel } from '../interfaces/hotel.interface';
+import { Room } from '../interfaces/room-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -121,5 +122,28 @@ export class HotelService {
 
   addNewHotel(hotel: Hotel) {
     this.hotels.push(hotel);
+  }
+
+  getRoomById(hotelId: number, roomId: number) {
+    const hotel = this.hotels.find((hotel) => hotel.id === hotelId);
+
+    return hotel?.rooms.find((room) => room.id === roomId);
+  }
+
+  addNewRoom(hotelId: number, newRoom: Room) {
+    const index = this.hotels.findIndex((hotel) => hotel.id == hotelId);
+    this.hotels[index].rooms.push(newRoom);
+  }
+
+  updateRoom(hotelId: number, roomId: Number, roomData: Room) {
+    const hotelIndex = this.hotels.findIndex((hotel) => hotel.id === hotelId);
+    const roomIndex = this.hotels[hotelIndex].rooms.findIndex(
+      (room) => room.id === roomId
+    );
+
+    this.hotels[hotelIndex].rooms[roomIndex] = {
+      ...this.hotels[hotelIndex].rooms[roomIndex],
+      ...roomData,
+    };
   }
 }
