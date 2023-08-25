@@ -1,0 +1,20 @@
+<h1>{{hotelToShow?.name}}</h1>
+
+<div class="rooms-div">
+    <div *ngFor="let room of hotelToShow?.rooms" class="room-div" [ngClass]="{'available': room.isAvailable}">
+        <p class="room-p" [ngClass]="{'available-p': room.isAvailable}">{{room.name}}</p>
+        <p>{{room.description}}</p>
+        <img src={{room.image}} class="room-image" alt="">
+        <p>price: $ {{room.price}}</p>
+        <p>persons: {{room.persons}}</p>
+        <p>children {{room.children}}</p>
+        <p>amenities: {{room.amenities}}</p>
+        <p>available: {{room.isAvailable}}</p>
+        <a [routerLink]="['/room-form',hotelToShow?.id,room.id]" class="add-btn room-btn">Edit Room</a>
+        <button (click)="onDelete(room.id)" class="delete-btn room-btn">Delete</button>
+    </div>
+
+    <h1 *ngIf="hotelToShow?.rooms?.length == 0">No rooms</h1>
+</div>
+
+<a routerLink="/hotel-managment" class="go-back-btn">Go Back</a>

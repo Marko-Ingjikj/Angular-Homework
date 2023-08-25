@@ -1,0 +1,65 @@
+<form [formGroup]="hotelForm">
+    <div class="form-div">
+        <label for="name">Name:</label>
+        <input type="text" id="name" formControlName="name">
+        <p class="error"
+            *ngIf="hotelForm.get('name')?.invalid && (hotelForm.get('name')?.touched || hotelForm.get('name')?.dirty)">
+            {{ nameHasErrorRequired ? 'Name is required' : ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="address">Address:</label>
+        <input type="text" id="address" formControlName="address">
+
+        <p class="error"
+            *ngIf="hotelForm.get('address')?.invalid && (hotelForm.get('address')?.touched || hotelForm.get('address')?.dirty)">
+            {{addressHasErrorRequired ? "Address is required" : ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="city">City:</label>
+        <input type="text" id="city" formControlName="city">
+
+        <p class="error"
+            *ngIf="hotelForm.get('city')?.invalid && (hotelForm.get('city')?.touched || hotelForm.get('city')?.dirty)">
+            {{cityHasErrorRequired ? "City is required" : ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="country">Country:</label>
+        <input type="text" id="country" formControlName="country">
+
+        <p class="error"
+            *ngIf="hotelForm.get('country')?.invalid && (hotelForm.get('country')?.touched || hotelForm.get('country')?.dirty)">
+            {{countryHasErrorRequired ? "Country is required" : ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="stars">Stars:</label>
+        <input type="number" id="stars" formControlName="stars">
+
+        <p class="error"
+            *ngIf="hotelForm.get('stars')?.invalid && (hotelForm.get('stars')?.touched || hotelForm.get('stars')?.dirty)">
+            {{ starsHasErrorRequired ? 'Stars are required' : ''}}
+            {{starsHasMinError ? 'Stars must be atleast 1': ''}}
+            {{starsHasMaxError ? 'Stars must be 5 or bellow': ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="Image">Image URL:</label>
+        <input type="text" id="image" formControlName="image">
+
+        <p class="error"
+            *ngIf="hotelForm.get('image')?.invalid && (hotelForm.get('image')?.touched || hotelForm.get('image')?.dirty)">
+            {{imageHasErrorRequired ? 'Image url is required' : ''}}
+            {{imageHasInvalidUrlError ? "Image must be url": ""}}
+        </p>
+    </div>
+
+    <button (click)="onSubmit()" [disabled]="hotelForm.invalid" class="submit-btn">Submit</button>
+</form>

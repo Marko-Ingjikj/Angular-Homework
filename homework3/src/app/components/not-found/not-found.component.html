@@ -1,0 +1,7 @@
+<div class="not-found-div">
+    <h1 *ngIf="cameFromRoomUrl">Room Not Found</h1>
+    <h1 *ngIf="cameFromHotelUrl">Hotel Not Found</h1>
+    <h1 *ngIf="!cameFromRoomUrl && !cameFromHotelUrl">Page not found</h1>
+</div>
+
+<a routerLink="/hotel-managment" class="go-back-btn">Go Back</a>

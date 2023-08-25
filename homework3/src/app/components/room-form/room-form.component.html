@@ -1,0 +1,80 @@
+<form [formGroup]="roomForm">
+    <div class="form-div">
+        <label for="name">Name:</label>
+        <input type="text" id="name" formControlName="name">
+
+        <p class="error"
+            *ngIf="roomForm.get('name')?.invalid && (roomForm.get('name')?.touched || roomForm.get('name')?.dirty)">
+            {{nameHasErrorRequired? 'Name is required': ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="description">Description:</label>
+        <input type="text" id="description" formControlName="description">
+
+        <p class="error"
+            *ngIf="roomForm.get('description')?.invalid && (roomForm.get('description')?.touched || roomForm.get('description')?.dirty)">
+            {{descriptionHasErrorRequired? 'Name is required': ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="image">Image:</label>
+        <input type="text" id="image" formControlName="image">
+
+        <p class="error"
+            *ngIf="roomForm.get('image')?.invalid && (roomForm.get('image')?.touched || roomForm.get('image')?.dirty)">
+            {{imageHasInvalidUrlError? 'Image must be url': ''}}
+            {{imageHasErrorRequired? 'Image is required': ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="price">Price:</label>
+        <input type="number" id="price" formControlName="price">
+
+        <p class="error"
+            *ngIf="roomForm.get('price')?.invalid && (roomForm.get('price')?.touched || roomForm.get('price')?.dirty)">
+            {{priceHasErrorRequired? 'price is required': ''}}
+            {{priceHasErrorMin? 'price must be atleast 1': ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="persons">Persons:</label>
+        <input type="number" id="persons" formControlName="persons">
+
+        <p class="error"
+            *ngIf="roomForm.get('persons')?.invalid && (roomForm.get('persons')?.touched || roomForm.get('persons')?.dirty)">
+
+            {{personsHasErrorRequired? 'persons is required': ''}}
+            {{personsHasErrorMin? 'persons must be atleast 1': ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="children">Children:</label>
+        <input type="number" id="children" formControlName="children">
+
+        <p class="error"
+            *ngIf="roomForm.get('children')?.invalid && (roomForm.get('children')?.touched || roomForm.get('children')?.dirty)">
+
+            {{childrenHasErrorRequired? 'children is required': ''}}
+            {{childrenHasErrorMin? 'children must be atleast 0': ''}}
+        </p>
+    </div>
+
+    <div class="form-div">
+        <label for="amenities">Amenities:</label>
+        <input type="text" id="amenities" formControlName="amenities">
+    </div>
+
+    <div class="checkbox-div">
+        <label for="isAvailable">Available:</label>
+        <input type="checkbox" id="isAvailable" formControlName="isAvailable">
+    </div>
+
+    <button (click)="onSubmit()" class="submit-btn" [disabled]="roomForm.invalid">Submit</button>
+
+</form>
