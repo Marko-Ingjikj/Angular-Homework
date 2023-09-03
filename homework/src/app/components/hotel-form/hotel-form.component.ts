@@ -25,7 +25,6 @@ export class HotelFormComponent implements OnInit {
   hotel: Hotel | undefined;
 
   hotelForm = new FormGroup({
-    id: new FormControl<number>(Date.now()),
     name: new FormControl<string>(
       '',
       Validators.compose([Validators.required])
@@ -103,36 +102,34 @@ export class HotelFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.route.snapshot.params['id']) {
-      this.subscription = this.route.params
-        .pipe(
-          map((params) => Number(params['id'])),
-          mergeMap((id) =>
-            this.hotelService.hotels$.pipe(
-              map((hotels) => hotels.find((hotel) => hotel.id === id))
-            )
-          )
-        )
-        .subscribe((hotel) => {
-          if (hotel) {
-            this.isEditing = true;
-            const hotelValue = {
-              ...hotel,
-            };
-
-            this.hotelForm.patchValue(hotelValue);
-          } else {
-            this.router.navigate(['/not-found/hotel']);
-          }
-        });
-    }
+    // if (this.route.snapshot.params['id']) {
+    //   this.subscription = this.route.params
+    //     .pipe(
+    //       map((params) => Number(params['id'])),
+    //       mergeMap((id) =>
+    //         this.hotelService.hotels$.pipe(
+    //           map((hotels) => hotels.find((hotel) => hotel.id === id))
+    //         )
+    //       )
+    //     )
+    //     .subscribe((hotel) => {
+    //       if (hotel) {
+    //         this.isEditing = true;
+    //         const hotelValue = {
+    //           ...hotel,
+    //         };
+    //         this.hotelForm.patchValue(hotelValue);
+    //       } else {
+    //         this.router.navigate(['/not-found/hotel']);
+    //       }
+    //     });
+    // }
   }
 
   onSubmit() {
     const hotel = {
       ...this.hotelForm.value,
     };
-
     if (this.isEditing) {
       this.hotelService.updateHotel(hotel as Hotel);
     } else {

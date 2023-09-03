@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription, map, mergeMap } from 'rxjs';
+import { HotelState } from 'src/app/interfaces/hotel-state.interface';
+import { Hotel } from 'src/app/interfaces/hotel.interface';
 import { Room } from 'src/app/interfaces/room-interface';
 import { HotelService } from 'src/app/services/hotel.service';
+import { hotelsSelector } from 'src/app/store/hotels/hotels.selectors';
 
 @Component({
   selector: 'app-room-form',
@@ -17,7 +21,6 @@ export class RoomFormComponent implements OnInit {
   subscription: Subscription = new Subscription();
 
   roomForm = new FormGroup({
-    id: new FormControl<number>(Date.now()),
     name: new FormControl<string>('', Validators.required),
     description: new FormControl<string>('', Validators.required),
     image: new FormControl<string>('', [
@@ -83,63 +86,44 @@ export class RoomFormComponent implements OnInit {
   }
 
   constructor(
-    private hotelService: HotelService,
+    private store: Store<HotelState>,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    if (
-      this.route.snapshot.params['hotel-id'] **
-      this.route.snapshot.params['room-id']
-    ) {
-      this.subscription = this.route.params
-        .pipe(
-          map((params) => Number(params['hotel-id'])),
-          mergeMap((id) =>
-            this.hotelService.hotels$.pipe(
-              map((hotels) => hotels.find((hotel) => hotel.id === id))
-            )
-          )
-        )
-        .subscribe((hotel) => {
-          const room = hotel?.rooms.find(
-            (room) => room.id === Number(this.route.snapshot.params['room-id'])
-          );
-          if (room) {
-            this.isEditing = true;
-
-            this.roomForm.patchValue({
-              ...room,
-              amenities: room?.amenities.join(','),
-            });
-          } else {
-            this.router.navigate(['/not-found/room']);
-          }
-        });
-    }
+    this.subscription = this.route.params.pipe(
+      map((params) => params['id']),
+      mergeMap((id) =>
+        this.store
+          .select(hotelsSelector)
+          .pipe(map((hotels) => hotels.find((hotel) => hotel.id == id || null)))
+      ).subscribe((hotel: Hotel | null) => {
+        if (hotel) {
+          this.hotel;
+        }
+      })
+    );
   }
 
   onSubmit() {
-    const hotelId = this.route.snapshot.params['hotel-id'];
-    const roomId = this.route.snapshot.params['room-id'];
-    const roomData = {
-      ...this.roomForm.value,
-      amenities: this.roomForm.value.amenities
-        ?.split(',')
-        .map((amenity: string) => amenity.trim()),
-    };
-
-    if (this.isEditing) {
-      this.hotelService.updateRoom(
-        Number(hotelId),
-        Number(roomId),
-        roomData as Room
-      );
-    } else {
-      this.hotelService.addNewRoom(Number(hotelId), roomData as Room);
-    }
-
-    this.router.navigate([`/hotel-details`, hotelId]);
+    // const hotelId = this.route.snapshot.params['hotel-id'];
+    // const roomId = this.route.snapshot.params['room-id'];
+    // const roomData = {
+    //   ...this.roomForm.value,
+    //   amenities: this.roomForm.value.amenities
+    //     ?.split(',')
+    //     .map((amenity: string) => amenity.trim()),
+    // };
+    // if (this.isEditing) {
+    //   this.hotelService.updateRoom(
+    //     Number(hotelId),
+    //     Number(roomId),
+    //     roomData as Room
+    //   );
+    // } else {
+    //   this.hotelService.addNewRoom(Number(hotelId), roomData as Room);
+    // }
+    // this.router.navigate([`/hotel-details`, hotelId]);
   }
 }

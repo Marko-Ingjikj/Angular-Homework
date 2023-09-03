@@ -20,26 +20,26 @@ export class HotelDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.route.params
-      .pipe(
-        map((params) => Number(params['id'])),
-        mergeMap((id) =>
-          this.hotelService.hotels$.pipe(
-            map((hotels) => hotels.find((hotel) => hotel.id === id))
-          )
-        )
-      )
-      .subscribe((hotel) => {
-        if (hotel) {
-          this.hotelToShow = hotel;
-        } else {
-          this.router.navigate(['/**']);
-        }
-      });
+    // this.subscription = this.route.params
+    //   .pipe(
+    //     map((params) => Number(params['id'])),
+    //     mergeMap((id) =>
+    //       this.hotelService.hotels$.pipe(
+    //         map((hotels) => hotels.find((hotel) => hotel.id === id))
+    //       )
+    //     )
+    //   )
+    //   .subscribe((hotel) => {
+    //     if (hotel) {
+    //       this.hotelToShow = hotel;
+    //     } else {
+    //       this.router.navigate(['/**']);
+    //     }
+    //   });
   }
 
-  onDelete(roomId: number) {
-    this.hotelService.deleteRoom(this.hotelToShow?.id, roomId);
+  onDelete(roomId: string) {
+    // this.hotelService.deleteRoom(this.hotelToShow?.id, roomId);
   }
 
   ngOnDestroy(): void {
