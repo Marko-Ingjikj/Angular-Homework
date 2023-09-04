@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription, map, mergeMap } from 'rxjs';
+import { Subscription, map, mergeMap, take } from 'rxjs';
 import { HotelState } from 'src/app/interfaces/hotel-state.interface';
 import { Hotel } from 'src/app/interfaces/hotel.interface';
 import { Room } from 'src/app/interfaces/room-interface';
-import { HotelService } from 'src/app/services/hotel.service';
+import { addRoom, updateRoom } from 'src/app/store/hotels/hotels.actions';
 import { hotelsSelector } from 'src/app/store/hotels/hotels.selectors';
 
 @Component({
@@ -14,7 +14,7 @@ import { hotelsSelector } from 'src/app/store/hotels/hotels.selectors';
   templateUrl: './room-form.component.html',
   styleUrls: ['./room-form.component.css'],
 })
-export class RoomFormComponent implements OnInit {
+export class RoomFormComponent implements OnInit, OnDestroy {
   urlRegex =
     /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   isEditing: boolean = false;
@@ -92,38 +92,71 @@ export class RoomFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.route.params.pipe(
-      map((params) => params['id']),
-      mergeMap((id) =>
-        this.store
-          .select(hotelsSelector)
-          .pipe(map((hotels) => hotels.find((hotel) => hotel.id == id || null)))
-      ).subscribe((hotel: Hotel | null) => {
-        if (hotel) {
-          this.hotel;
+    this.subscription = this.route.params
+      .pipe(
+        map((params) => params['hotel-id']),
+        mergeMap((id) =>
+          this.store
+            .select(hotelsSelector)
+            .pipe(map((hotel) => hotel.find((s) => s.id === id) || null))
+        )
+      )
+      .subscribe((hotel: Hotel | null) => {
+        const room = hotel?.rooms.find(
+          (room) => room.id === this.route.snapshot.params['room-id']
+        );
+        if (hotel && room) {
+          this.isEditing = true;
+          this.roomForm.patchValue({
+            name: room?.name,
+            description: room?.description,
+            image: room?.image,
+            price: room?.price,
+            persons: room?.persons,
+            children: room?.children,
+            amenities: room?.amenities.join(', ') || '',
+            isAvailable: room?.isAvailable || false,
+          });
         }
-      })
-    );
+        if (!hotel && this.route.snapshot.params['hotel-id']) {
+          this.router.navigate(['/not-found/hotel']);
+          return;
+        }
+        if (!room && this.route.snapshot.params['room-id']) {
+          this.router.navigate(['/not-found/room']);
+        }
+      });
   }
 
   onSubmit() {
-    // const hotelId = this.route.snapshot.params['hotel-id'];
-    // const roomId = this.route.snapshot.params['room-id'];
-    // const roomData = {
-    //   ...this.roomForm.value,
-    //   amenities: this.roomForm.value.amenities
-    //     ?.split(',')
-    //     .map((amenity: string) => amenity.trim()),
-    // };
-    // if (this.isEditing) {
-    //   this.hotelService.updateRoom(
-    //     Number(hotelId),
-    //     Number(roomId),
-    //     roomData as Room
-    //   );
-    // } else {
-    //   this.hotelService.addNewRoom(Number(hotelId), roomData as Room);
-    // }
-    // this.router.navigate([`/hotel-details`, hotelId]);
+    const hotelId = this.route.snapshot.params['hotel-id'];
+    const roomId = this.route.snapshot.params['room-id'];
+
+    if (this.isEditing) {
+      const roomData = {
+        ...this.roomForm.value,
+        id: roomId,
+        amenities: this.roomForm.value.amenities
+          ?.split(',')
+          .map((amenity: string) => amenity.trim()),
+      };
+      this.store.dispatch(
+        updateRoom({ hotelId, roomId, room: roomData as Room })
+      );
+    } else {
+      const roomData = {
+        ...this.roomForm.value,
+        id: new Date().toISOString(),
+        amenities: this.roomForm.value.amenities
+          ?.split(',')
+          .map((amenity: string) => amenity.trim()),
+      };
+      this.store.dispatch(addRoom({ hotelId, room: roomData as Room }));
+    }
+    this.router.navigate([`/hotel-details`, hotelId]);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -1,11 +1,25 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  addHotel,
+  addHotelSuccess,
+  addRoom,
+  addRoomFailure,
+  addRoomSuccess,
   deleteHotel,
   deleteHotelFailure,
   deleteHotelSuccess,
+  deleteRoom,
+  deleteRoomFailure,
+  deleteRoomSuccess,
   getHotels,
   getHotelsFailure,
   getHotelsSuccess,
+  updateHotel,
+  updateHotelFailure,
+  updateHotelSuccess,
+  updateRoom,
+  updateRoomFailure,
+  updateRoomSuccess,
 } from './hotels.actions';
 import { HotelState } from 'src/app/interfaces/hotel-state.interface';
 
@@ -33,7 +47,23 @@ export const reducer = createReducer(
     isLoading: false,
     error: action.error,
   })),
-
+  //
+  //
+  on(addHotel, (state, action) => ({
+    ...state,
+    isLoading: true,
+  })),
+  on(addHotelSuccess, (state, action) => ({
+    ...state,
+    isLoading: false,
+  })),
+  on(addRoomFailure, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error,
+  })),
+  //
+  //
   on(deleteHotel, (state, action) => ({
     ...state,
     isLoading: true,
@@ -45,6 +75,70 @@ export const reducer = createReducer(
     error: '',
   })),
   on(deleteHotelFailure, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error,
+  })),
+  //
+  //
+  on(updateHotel, (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: '',
+  })),
+  on(updateHotelSuccess, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: '',
+  })),
+  on(updateHotelFailure, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error,
+  })),
+  //
+  //
+  on(addRoom, (state, action) => ({
+    ...state,
+    isLoading: true,
+  })),
+  on(addRoomSuccess, (state, action) => ({
+    ...state,
+    isLoading: false,
+  })),
+  on(addRoomFailure, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error,
+  })),
+  //
+  //
+  on(updateRoom, (state, action) => ({
+    ...state,
+    isLoading: true,
+  })),
+  on(updateRoomSuccess, (state, action) => ({
+    ...state,
+    isLoading: false,
+  })),
+  on(updateRoomFailure, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error,
+  })),
+  //
+  //
+  on(deleteRoom, (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: '',
+  })),
+  on(deleteRoomSuccess, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: '',
+  })),
+  on(deleteRoomFailure, (state, action) => ({
     ...state,
     isLoading: false,
     error: action.error,

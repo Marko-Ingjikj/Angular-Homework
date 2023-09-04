@@ -1,28 +1,26 @@
 import { HotelService } from '../../services/hotel.service';
-import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  AbstractControl,
-  ValidatorFn,
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Hotel } from '../../interfaces/hotel.interface';
 import { Room } from '../../interfaces/room-interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, map, mergeMap } from 'rxjs';
+import { hotelsSelector } from 'src/app/store/hotels/hotels.selectors';
+import { Store } from '@ngrx/store';
+import { HotelState } from 'src/app/interfaces/hotel-state.interface';
+import { addHotel, updateHotel } from 'src/app/store/hotels/hotels.actions';
 
 @Component({
   selector: 'app-hotel-form',
   templateUrl: './hotel-form.component.html',
   styleUrls: ['./hotel-form.component.css'],
 })
-export class HotelFormComponent implements OnInit {
+export class HotelFormComponent implements OnInit, OnDestroy {
   urlRegex =
     /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   isEditing: boolean = false;
   subscription: Subscription = new Subscription();
-  hotel: Hotel | undefined;
+  hotelId: string = '';
 
   hotelForm = new FormGroup({
     name: new FormControl<string>(
@@ -96,45 +94,47 @@ export class HotelFormComponent implements OnInit {
   }
 
   constructor(
-    private hotelService: HotelService,
+    private store: Store<HotelState>,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    // if (this.route.snapshot.params['id']) {
-    //   this.subscription = this.route.params
-    //     .pipe(
-    //       map((params) => Number(params['id'])),
-    //       mergeMap((id) =>
-    //         this.hotelService.hotels$.pipe(
-    //           map((hotels) => hotels.find((hotel) => hotel.id === id))
-    //         )
-    //       )
-    //     )
-    //     .subscribe((hotel) => {
-    //       if (hotel) {
-    //         this.isEditing = true;
-    //         const hotelValue = {
-    //           ...hotel,
-    //         };
-    //         this.hotelForm.patchValue(hotelValue);
-    //       } else {
-    //         this.router.navigate(['/not-found/hotel']);
-    //       }
-    //     });
-    // }
+    this.subscription = this.route.params
+      .pipe(
+        map((params) => params['id']),
+        mergeMap((id) =>
+          this.store
+            .select(hotelsSelector)
+            .pipe(map((hotel) => hotel.find((s) => s.id === id) || null))
+        )
+      )
+      .subscribe((hotel: Hotel | null) => {
+        if (hotel) {
+          this.hotelId = hotel.id;
+          this.isEditing = true;
+          this.hotelForm.patchValue(hotel);
+        }
+        if (!hotel && this.route.snapshot.params['id']) {
+          this.router.navigate(['/not-found/hotel']);
+        }
+      });
   }
 
   onSubmit() {
     const hotel = {
       ...this.hotelForm.value,
+      id: this.hotelId,
     };
     if (this.isEditing) {
-      this.hotelService.updateHotel(hotel as Hotel);
+      this.store.dispatch(updateHotel({ hotel: hotel as Hotel }));
     } else {
-      this.hotelService.addNewHotel(hotel as Hotel);
+      this.store.dispatch(addHotel({ hotel: hotel as Hotel }));
     }
     this.router.navigate(['/']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

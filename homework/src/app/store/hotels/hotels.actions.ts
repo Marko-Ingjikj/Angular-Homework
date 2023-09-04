@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Hotel } from 'src/app/interfaces/hotel.interface';
+import { Room } from 'src/app/interfaces/room-interface';
 
 export const getHotels = createAction('[Hotels] get hotels');
 export const getHotelsSuccess = createAction(
@@ -45,5 +46,38 @@ export const deleteHotelSuccess = createAction(
 );
 export const deleteHotelFailure = createAction(
   '[Hotels] delete hotel: failure',
+  props<{ error: string }>()
+);
+//
+//
+export const addRoom = createAction(
+  '[Hotels] add room',
+  props<{ hotelId: string; room: Room }>()
+);
+export const addRoomSuccess = createAction('[Hotels] add room: success');
+export const addRoomFailure = createAction(
+  '[Hotels] add room: failure',
+  props<{ error: string }>()
+);
+//
+//
+export const updateRoom = createAction(
+  '[Hotels] update room',
+  props<{ hotelId: string; roomId: string; room: Room }>()
+);
+export const updateRoomSuccess = createAction('[Hotels] update room: success');
+export const updateRoomFailure = createAction(
+  '[Hotels] update room: failure',
+  props<{ error: string }>()
+);
+//
+//
+export const deleteRoom = createAction(
+  '[Hotels] delete room',
+  props<{ hotelId: string; roomId: string }>()
+);
+export const deleteRoomSuccess = createAction('[Hotels] delete room: success');
+export const deleteRoomFailure = createAction(
+  '[Hotels] delete room: failure',
   props<{ error: string }>()
 );

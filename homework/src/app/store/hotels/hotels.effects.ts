@@ -1,15 +1,25 @@
+import { Room } from './../../interfaces/room-interface';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   addHotel,
   addHotelFailure,
   addHotelSuccess,
+  addRoom,
+  addRoomSuccess,
   deleteHotel,
   deleteHotelFailure,
   deleteHotelSuccess,
+  deleteRoom,
+  deleteRoomFailure,
+  deleteRoomSuccess,
   getHotels,
   getHotelsFailure,
   getHotelsSuccess,
+  updateHotel,
+  updateHotelFailure,
+  updateHotelSuccess,
+  updateRoom,
 } from './hotels.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
@@ -56,6 +66,23 @@ export class HotelsEffects {
     )
   );
 
+  updateHotel$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateHotel),
+      switchMap(({ hotel }: { hotel: Hotel }) =>
+        this.hotelService.updateHotel(hotel)
+      ),
+      map(() => updateHotelSuccess()),
+      catchError((error) =>
+        of(
+          updateHotelFailure({
+            error: error.message || 'Error while updating hotel',
+          })
+        )
+      )
+    )
+  );
+
   deleteHotel$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteHotel),
@@ -65,6 +92,59 @@ export class HotelsEffects {
         of(
           deleteHotelFailure({
             error: error.message || 'Error while deleting hotel',
+          })
+        )
+      )
+    )
+  );
+
+  addRoom$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addRoom),
+      switchMap(({ hotelId, room }: { hotelId: string; room: Room }) =>
+        this.hotelService.addNewRoom(hotelId, room)
+      ),
+      map(() => addRoomSuccess()),
+      catchError((error) => of(addHotelFailure({ error: error.message })))
+    )
+  );
+
+  updateRoom$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateRoom),
+      switchMap(
+        ({
+          hotelId,
+          roomId,
+          room,
+        }: {
+          hotelId: string;
+          roomId: string;
+          room: Room;
+        }) => this.hotelService.updateRoom(hotelId, roomId, room)
+      ),
+      map(() => updateHotelSuccess()),
+      catchError((error) =>
+        of(
+          updateHotelFailure({
+            error: error.message || 'Error while updating room',
+          })
+        )
+      )
+    )
+  );
+
+  deleteRoom$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteRoom),
+      switchMap(({ hotelId, roomId }: { hotelId: string; roomId: string }) =>
+        this.hotelService.deleteRoom(hotelId, roomId)
+      ),
+      map(() => deleteRoomSuccess()),
+      catchError((error) =>
+        of(
+          deleteRoomFailure({
+            error: error.message || 'Error while deleting room',
           })
         )
       )
