@@ -5,7 +5,7 @@
         <p class="room-p" [ngClass]="{'available-p': room.isAvailable}">{{room.name}}</p>
         <p>{{room.description}}</p>
         <img src={{room.image}} class="room-image" alt="">
-        <p>price: $ {{room.price}}</p>
+        <p>price: {{room.price | currency}}</p>
         <p>persons: {{room.persons}}</p>
         <p>children {{room.children}}</p>
         <div>amenities: <ul>
