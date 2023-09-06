@@ -1,3 +1,31 @@
 li {
   list-style-position: inside;
 }
+
+.room-div {
+  width: 350px;
+  padding: 15px;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.room-p {
+  color: red;
+}
+
+.available {
+  border: 1px solid greenyellow;
+}
+.available-p {
+  color: greenyellow;
+}
+
+.room-btn {
+  border: 1px solid black;
+  cursor: pointer;
+  color: white;
+  padding: 6px;
+  width: fit-content;
+}

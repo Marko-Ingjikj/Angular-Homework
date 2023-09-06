@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  padding: 20px;
+  min-width: 150px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+a {
+  cursor: pointer;
+  color: blue;
+}

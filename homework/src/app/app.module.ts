@@ -22,6 +22,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { HotelService } from './services/hotel.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule } from './components/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { HotelService } from './services/hotel.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    AuthModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({
@@ -52,6 +55,7 @@ import { HotelService } from './services/hotel.service';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    BrowserAnimationsModule,
   ],
   providers: [HotelService],
   bootstrap: [AppComponent],

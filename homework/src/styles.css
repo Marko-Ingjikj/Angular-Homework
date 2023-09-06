@@ -4,50 +4,20 @@
   box-sizing: border-box;
 }
 
-.hotel-managment-div,
-.rooms-div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin: 10px;
-}
-
-.hotel-div {
-  width: 350px;
-  padding: 15px;
-  border: 1px solid black;
-}
-
-.room-div {
-  width: 350px;
-  padding: 15px;
-  border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.room-p {
-  color: red;
-}
-
-.available {
-  border: 1px solid greenyellow;
-}
-.available-p {
-  color: greenyellow;
-}
-
-.hotel-image,
-.room-image {
-  width: 100%;
-  height: 250px;
+body {
+  font-family: serif !important;
 }
 
 a {
   cursor: pointer;
   text-decoration: none;
   color: black;
+}
+
+.hotel-image,
+.room-image {
+  width: 100%;
+  height: 250px;
 }
 
 .go-back-btn {
@@ -58,40 +28,11 @@ a {
   border: 1px solid coral;
 }
 
-nav {
-  padding: 15px;
-  background-color: darkcyan;
-}
-
-nav a {
-  color: white;
-  margin: 5px;
-  font-size: 20px;
-}
-nav a:hover {
-  color: gray;
-}
-
 .btn-div {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
-}
-
-.hotel-btn {
-  border: 1px solid black;
-  cursor: pointer;
-  color: white;
-  padding: 8px;
-}
-
-.room-btn {
-  border: 1px solid black;
-  cursor: pointer;
-  color: white;
-  padding: 6px;
-  width: fit-content;
 }
 
 .edit-btn {
@@ -106,7 +47,7 @@ nav a:hover {
   background-color: coral;
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,8 +84,4 @@ form {
 
 .error {
   color: red;
-}
-
-.not-found-div {
-  padding: 10px;
 }

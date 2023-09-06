@@ -1,0 +1,20 @@
+.hotel-managment-div,
+.rooms-div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 10px;
+}
+
+.hotel-div {
+  width: 350px;
+  padding: 15px;
+  border: 1px solid black;
+}
+
+.hotel-btn {
+  border: 1px solid black;
+  cursor: pointer;
+  color: white;
+  padding: 8px;
+}

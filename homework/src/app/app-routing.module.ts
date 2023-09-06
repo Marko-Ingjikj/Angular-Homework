@@ -5,6 +5,8 @@ import { HotelDetailsComponent } from './components/hotel-details/hotel-details.
 import { HotelFormComponent } from './components/hotel-form/hotel-form.component';
 import { RoomFormComponent } from './components/room-form/room-form.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -23,18 +25,26 @@ const routes: Routes = [
   {
     path: 'hotel-form',
     component: HotelFormComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'hotel-form/:id',
     component: HotelFormComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'room-form/:hotel-id',
     component: RoomFormComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'room-form/:hotel-id/:room-id',
     component: RoomFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: AuthComponent,
   },
   {
     path: 'not-found/:from',
