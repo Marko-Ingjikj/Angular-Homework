@@ -5,6 +5,10 @@ import { HotelState } from 'src/app/interfaces/hotel-state.interface';
 import { Hotel } from 'src/app/interfaces/hotel.interface';
 import { deleteHotel, getHotels } from 'src/app/store/hotels/hotels.actions';
 import { hotelsSelector } from 'src/app/store/hotels/hotels.selectors';
+import { AuthService } from '../auth/auth.service';
+import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
+
+defineComponents(IgcRatingComponent);
 
 @Component({
   selector: 'app-hotel-managment',
@@ -15,9 +19,16 @@ export class HotelManagmentComponent implements OnInit, OnDestroy {
   hotels$: Observable<Hotel[]> = new Observable<Hotel[]>();
   subscription: Subscription = new Subscription();
 
-  constructor(private store: Store<HotelState>) {}
+  isLoggedIn$: Observable<boolean> = new Observable<boolean>();
+
+  constructor(
+    private store: Store<HotelState>,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+
     this.hotels$ = this.store.select(hotelsSelector);
 
     this.store.dispatch(getHotels());

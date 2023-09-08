@@ -14,25 +14,12 @@ a {
   color: black;
 }
 
-.hotel-image,
-.room-image {
-  width: 100%;
-  height: 250px;
-}
-
 .go-back-btn {
   background-color: burlywood;
   cursor: pointer;
   padding: 5px;
   margin: 10px;
   border: 1px solid coral;
-}
-
-.btn-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
 }
 
 .edit-btn {

@@ -1,15 +1,23 @@
-.hotel-managment-div,
-.rooms-div {
+.hotel-managment-div {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  margin: 10px;
+  margin: 20px auto;
+  width: 60%;
 }
 
 .hotel-div {
-  width: 350px;
+  width: 100%;
   padding: 15px;
   border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hotel-link {
+  display: flex;
+  gap: 15px;
 }
 
 .hotel-btn {
@@ -17,4 +25,36 @@
   cursor: pointer;
   color: white;
   padding: 8px;
+  width: 100%;
+  text-align: center;
 }
+
+.hotel-image {
+  width: 100%;
+  height: 250px;
+}
+
+.btn-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hotel-name {
+  color: blue;
+}
+
+.hotel-name:hover {
+  color: black;
+}
+
+.stars {
+  color: yellow;
+  size: 160px;
+}
+
+/* svg {
+  height: 60px;
+} */

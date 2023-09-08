@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -12,18 +12,29 @@ export class AuthComponent {
   hidePassword: boolean = true;
 
   authForm = new FormGroup({
-    name: new FormControl<string>(''),
-    email: new FormControl<string>(''),
-    password: new FormControl<string>(''),
+    name: new FormControl<string>('', Validators.required),
+    email: new FormControl<string>(
+      '',
+      Validators.compose([Validators.required, Validators.email])
+    ),
+    password: new FormControl<string>('', Validators.required),
   });
 
   constructor(private authService: AuthService) {}
 
   onSubmit() {
-    this.authService.register(
-      this.authForm.value.name!,
-      this.authForm.value.email!,
-      this.authForm.value.password!
-    );
+    const { name, email, password } = this.authForm.value;
+
+    if (this.showLoginForm) {
+      if (!email || !password) {
+        return;
+      }
+      this.authService.login(email, password);
+    } else {
+      if (!email || !password || !name) {
+        return;
+      }
+      this.authService.register(name, email, password);
+    }
   }
 }

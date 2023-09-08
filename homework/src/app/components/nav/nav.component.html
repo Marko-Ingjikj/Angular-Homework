@@ -1,5 +1,15 @@
 <nav>
-    <a class="nav-link" routerLink="/hotel-managment" routerLinkActive="active">Home</a>
-    <a class="nav-link" routerLink="/hotel-form" routerLinkActive="active">Add Hotel</a>
-    <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+    <div class="nav-link-div"> <a class="nav-link" routerLink="/hotel-managment" routerLinkActive="active">Home</a>
+        <a class="nav-link" routerLink="/hotel-form" routerLinkActive="active">Add Hotel</a>
+    </div>
+
+    <div class="nav-account-div"> <a class="nav-link" routerLink="/login" routerLinkActive="active"
+            *ngIf="!(isLoggedIn$ | async)">Login</a>
+        <div class="account-and-logout" *ngIf="isLoggedIn$ | async">
+            <span>Hello, {{(userData$ | async)?.name}}</span>
+            <button (click)="logout()">Log out</button>
+        </div>
+    </div>
+
+
 </nav>

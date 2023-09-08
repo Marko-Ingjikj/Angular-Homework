@@ -29,3 +29,15 @@ li {
   padding: 6px;
   width: fit-content;
 }
+
+.room-image {
+  width: 100%;
+  height: 250px;
+}
+
+.btn-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
