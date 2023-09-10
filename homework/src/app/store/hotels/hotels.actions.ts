@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Hotel } from 'src/app/interfaces/hotel.interface';
 import { Room } from 'src/app/interfaces/room-interface';
+import { SearchFilters } from 'src/app/interfaces/search-filters.interface';
 
 export const getHotels = createAction('[Hotels] get hotels');
 export const getHotelsSuccess = createAction(
@@ -8,6 +9,20 @@ export const getHotelsSuccess = createAction(
   props<{ hotels: Hotel[] }>()
 );
 export const getHotelsFailure = createAction(
+  '[Hotels] get hotels: failure',
+  props<{ error: string }>()
+);
+//
+//
+export const getFilteredHotels = createAction(
+  '[Hotels] get hotels',
+  props<{ filters: SearchFilters }>()
+);
+export const getFilteredHotelsSuccess = createAction(
+  '[Hotels] get hotels: success',
+  props<{ hotels: Hotel[] }>()
+);
+export const getFilteredHotelsFailure = createAction(
   '[Hotels] get hotels: failure',
   props<{ error: string }>()
 );

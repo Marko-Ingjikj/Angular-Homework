@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="authForm">
         <mat-form-field *ngIf="!showLoginForm">
             <mat-label>Enter your name</mat-label>
             <input matInput placeholder="John Doe" type="text" formControlName="name">
@@ -21,7 +21,7 @@
             <mat-error>Password is required</mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit">
+        <button mat-raised-button color="primary" (click)="onSubmit()">
             {{showLoginForm ? 'Log in' : 'Register'}}
         </button>
         <mat-hint>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, mergeMap, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, mergeMap, of } from 'rxjs';
 import { User } from 'src/app/interfaces/user.interface';
 
 @Injectable({
@@ -18,12 +18,39 @@ export class AuthService {
     new BehaviorSubject<User | null>(null);
   userData$: Observable<User | null> = this.userData.asObservable();
 
+  subscription: Subscription = new Subscription();
+
   constructor(
     private fireAuth: AngularFireAuth,
     private firestore: AngularFirestore,
     private router: Router
-  ) {
-    this.fireAuth.authState
+  ) {}
+
+  private updateIsLoggedIn(isLoggedIn: boolean) {
+    this.isLoggedIn.next(isLoggedIn);
+  }
+
+  private updateUserData(userData: User | null) {
+    this.userData.next(userData);
+  }
+
+  async login(email: string, password: string) {
+    try {
+      const result = await this.fireAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+
+      if (result.user) {
+        this.router.navigate(['/hotel-managment']);
+      } else {
+        console.error('Rrror while log in');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.subscription = this.fireAuth.authState
       .pipe(
         mergeMap((user) => {
           if (user) {
@@ -52,31 +79,6 @@ export class AuthService {
           console.log('authState error', error);
         },
       });
-  }
-
-  private updateIsLoggedIn(isLoggedIn: boolean) {
-    this.isLoggedIn.next(isLoggedIn);
-  }
-
-  private updateUserData(userData: User | null) {
-    this.userData.next(userData);
-  }
-
-  async login(email: string, password: string) {
-    try {
-      const result = await this.fireAuth.signInWithEmailAndPassword(
-        email,
-        password
-      );
-
-      if (result.user) {
-        this.router.navigate(['/hotel-managment']);
-      } else {
-        console.error('Rrror while log in');
-      }
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   async register(name: string, email: string, password: string) {
@@ -115,5 +117,6 @@ export class AuthService {
     this.updateIsLoggedIn(false);
     this.updateUserData(null);
     this.router.navigate(['/login']);
+    this.subscription.unsubscribe();
   }
 }

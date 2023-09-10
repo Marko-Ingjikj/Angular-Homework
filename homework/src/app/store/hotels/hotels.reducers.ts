@@ -11,6 +11,9 @@ import {
   deleteRoom,
   deleteRoomFailure,
   deleteRoomSuccess,
+  getFilteredHotels,
+  getFilteredHotelsFailure,
+  getFilteredHotelsSuccess,
   getHotels,
   getHotelsFailure,
   getHotelsSuccess,
@@ -27,6 +30,7 @@ export const initialState: HotelState = {
   hotels: [],
   isLoading: false,
   error: '',
+  filters: {},
 };
 
 export const reducer = createReducer(
@@ -43,6 +47,25 @@ export const reducer = createReducer(
     error: '',
   })),
   on(getHotelsFailure, (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error,
+  })),
+  //
+  //
+  on(getFilteredHotels, (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: '',
+    filters: action.filters,
+  })),
+  on(getFilteredHotelsSuccess, (state, action) => ({
+    ...state,
+    hotels: action.hotels,
+    isLoading: false,
+    error: '',
+  })),
+  on(getFilteredHotelsFailure, (state, action) => ({
     ...state,
     isLoading: false,
     error: action.error,

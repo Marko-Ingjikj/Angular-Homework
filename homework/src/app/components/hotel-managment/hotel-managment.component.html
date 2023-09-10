@@ -1,19 +1,50 @@
-<div class="hotel-managment-div">
-    <div *ngFor="let hotel of (hotels$ | async)" class="hotel-div">
-        <a class="hotel-link" [routerLink]="['/hotel-details', hotel.id]">
-            <img src={{hotel.image}} alt="" class="hotel-image">
-            <div class="hotel-link-text">
-                <h1 class="hotel-name">{{hotel.name}}</h1>
-                <p>location: {{hotel.address}}<br> {{hotel.city}}-{{hotel.country}}</p>
-                <igc-rating name="modelRating" [value]="hotel.stars" max="5" class="stars"></igc-rating>
+<main>
+
+    <div class="hotels">
+        <div class="filters">
+            <input type="text" [value]="searchTerm" (keyup)="onKeyUp($event)" placeholder="Search hotels...">
+            <div class="search-filter">
+                <label for="country">Country:</label>
+                <select name="country" id="country" (change)="changeCountryFilter($event)">
+                    <option value="" selected>...</option>
+                </select>
             </div>
-        </a>
-        <div class="btn-div">
-            <a [routerLink]="['/hotel-form',hotel.id]" class="edit-btn hotel-btn">Edit</a>
-            <a [routerLink]="['/room-form',hotel.id]" class="add-btn hotel-btn">Add Room</a>
-            <button class="delete-btn hotel-btn" (click)="onDelete(hotel.id)">Delete</button>
+
+            <div class="search-filter">
+                <label for="isRoomAvailable">Available Rooms</label>
+                <input type="checkbox" name="isRoomAvailable" id="isRoomAvailable" [checked]="roomsAvailableFilter"
+                    (change)="changeRoomsAvailableFilter($event)">
+            </div>
+        </div>
+        <div class="hotel-managment-div">
+            <div *ngFor="let hotel of (hotels$ | async)" class="hotel-div">
+                <a class="hotel-link" [routerLink]="['/hotel-details', hotel.id]">
+                    <img src={{hotel.image}} alt="" class="hotel-image">
+                    <div class="hotel-link-text">
+                        <h1 class="hotel-name">{{hotel.name}}</h1>
+                        <igc-rating name="modelRating" [value]="hotel.stars" max="5" class="stars"></igc-rating>
+                        <p>location: {{hotel.address}}<br> {{hotel.city}}-{{hotel.country}}</p>
+                        <p class="rooms-available"
+                            [ngClass]="getAvailableRooms(hotel.rooms) > 0 ? 'available' : 'not-available'">Rooms
+                            available:
+                            {{getAvailableRooms(hotel.rooms)}}</p>
+                        <p class="hotel-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+                            consequatur porro magnam corporis! Nostrum, optio, asperiores laborum distinctio pariatur
+                            velit
+                            odio
+                            illo voluptas error eos porro eum cupiditate cum iure.</p>
+                    </div>
+                </a>
+                <div *ngIf="isLoggedIn$ | async" class="btn-div">
+                    <a [routerLink]="['/hotel-form',hotel.id]" class="edit-btn hotel-btn">Edit</a>
+                    <a [routerLink]="['/room-form',hotel.id]" class="add-btn hotel-btn">Add Room</a>
+                    <button class="delete-btn hotel-btn" (click)="onDelete(hotel.id)">Delete</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <h1 *ngIf="(hotels$ | async)?.length === 0">There are currently no hotels </h1>
-</div>
+
+
+
+</main>

@@ -13,6 +13,9 @@ import {
   deleteRoom,
   deleteRoomFailure,
   deleteRoomSuccess,
+  getFilteredHotels,
+  getFilteredHotelsFailure,
+  getFilteredHotelsSuccess,
   getHotels,
   getHotelsFailure,
   getHotelsSuccess,
@@ -21,9 +24,10 @@ import {
   updateHotelSuccess,
   updateRoom,
 } from './hotels.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
 import { Hotel } from 'src/app/interfaces/hotel.interface';
+import { SearchFilters } from 'src/app/interfaces/search-filters.interface';
 
 @Injectable()
 export class HotelsEffects {
@@ -46,6 +50,24 @@ export class HotelsEffects {
           )
         )
       )
+    )
+  );
+
+  getFilteredHotels$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getFilteredHotels),
+      mergeMap(({ filters }: { filters: SearchFilters }) => {
+        return this.hotelService.searchHotels(filters).pipe(
+          map((hotels) => getFilteredHotelsSuccess({ hotels })),
+          catchError((error) =>
+            of(
+              getFilteredHotelsFailure({
+                error: error.message || 'Error while getting hotels',
+              })
+            )
+          )
+        );
+      })
     )
   );
 

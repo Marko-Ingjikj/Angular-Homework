@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Hotel } from '../interfaces/hotel.interface';
 import { Room } from '../interfaces/room-interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, from, mergeMap, of } from 'rxjs';
+import { Observable, from, map, mergeMap, of } from 'rxjs';
+import { SearchFilters } from '../interfaces/search-filters.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -107,6 +108,40 @@ export class HotelService {
           return from(
             this.firestore.collection('hotels').doc(hotelId).update(hotelData)
           );
+        })
+      );
+  }
+
+  searchHotels(searchFilters: SearchFilters): Observable<Hotel[]> {
+    return this.firestore
+      .collection<Hotel>('hotels')
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map((hotels) => {
+          return hotels.filter((hotel) => {
+            if (
+              searchFilters.searchTerm &&
+              !hotel.name.toLowerCase().includes(searchFilters.searchTerm)
+            ) {
+              return false;
+            }
+
+            if (
+              searchFilters.from &&
+              !hotel.country.includes(searchFilters.from)
+            ) {
+              return false;
+            }
+
+            if (
+              searchFilters.roomsAvailable &&
+              !hotel.rooms.some((room) => room.isAvailable)
+            ) {
+              return false;
+            }
+
+            return true;
+          });
         })
       );
   }
