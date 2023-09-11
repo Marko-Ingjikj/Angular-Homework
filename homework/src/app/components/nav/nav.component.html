@@ -6,8 +6,8 @@
     <div class="nav-account-div"> <a class="nav-link" routerLink="/login" routerLinkActive="active"
             *ngIf="!(isLoggedIn$ | async)">Login</a>
         <div class="account-and-logout" *ngIf="isLoggedIn$ | async">
-            <span>Hello, {{(userData$ | async)?.name}}</span>
-            <button (click)="logout()">Log out</button>
+            <h4>Hello, {{(userData$ | async)?.name}}</h4>
+            <button class="logout" (click)=" logout()">Log out</button>
         </div>
     </div>
 

@@ -14,14 +14,33 @@
 
 .filters {
   width: 18%;
-  background-color: #00ffff;
   height: fit-content;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 15px;
+}
+
+.search-input {
+  width: 80%;
+  background-color: #f1f5f8;
+  border: none;
+  padding: 8px;
+  font-size: 15px;
+  border-radius: 6px;
+}
+
+.search-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .hotel-div {
   padding: 15px;
   border: 1px solid gainsboro;
   border-radius: 4px;
+  gap: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,12 +51,16 @@
   gap: 15px;
 }
 
+.small-width {
+  display: none;
+}
+
 .hotel-btn {
   border: 1px solid black;
   cursor: pointer;
   color: white;
   padding: 8px;
-  width: 100%;
+  width: 100px;
   text-align: center;
 }
 
@@ -77,4 +100,67 @@
 }
 .not-available {
   color: red;
+}
+
+@media only screen and (max-width: 1300px) {
+  .hotels {
+    width: 90%;
+  }
+  .hotel-div {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .btn-div {
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .hotel-link {
+    width: 100%;
+  }
+  .small-width {
+    display: block;
+  }
+  .big-width {
+    display: none;
+  }
+  .filters {
+    width: 310px;
+  }
+  .hotels {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.no-hotels-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media only screen and (max-width: 750px) {
+  .hotel-image {
+    width: 50%;
+  }
+  .hotel-managment-div {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .hotel-managment-div {
+    font-size: 12px;
+  }
+
+  .gif {
+    width: 90%;
+  }
+
+  .hotel-btn {
+    width: 75px;
+    font-size: 12px;
+  }
 }

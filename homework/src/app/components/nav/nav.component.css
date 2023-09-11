@@ -7,18 +7,50 @@ nav {
 }
 
 .nav-link {
-  color: white;
+  color: rgb(161, 159, 159);
   margin: 5px;
   font-size: 20px;
 }
+
 .nav-link:hover {
-  color: gray;
+  border-bottom: 1px solid white;
 }
 
 .active {
-  color: black;
+  color: white;
 }
 
-.nav-account-div {
-  padding-right: 60px;
+.account-and-logout {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+}
+
+.logout {
+  color: white;
+  background-color: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout:hover {
+  border-bottom: 1px solid white;
+}
+
+@media only screen and (max-width: 500px) {
+  nav {
+    font-size: 14px;
+    padding: 15px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 12px;
+  }
 }

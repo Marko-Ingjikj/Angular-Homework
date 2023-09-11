@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: 'hotel-form',
     component: HotelFormComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminGuard],
   },
   {
     path: 'hotel-form/:id',

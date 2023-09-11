@@ -1,23 +1,38 @@
-<h1>{{hotelToShow?.name}}</h1>
+<div class="back-and-header">
+    <a routerLink="/hotel-managment" class="go-back-btn">Go Back</a>
+    <h1>{{hotelToShow?.name}}</h1>
+</div>
 
 <div class="rooms-div">
-    <div *ngFor="let room of hotelToShow?.rooms" class="room-div" [ngClass]="{'available': room.isAvailable}">
-        <p class="room-p" [ngClass]="{'available-p': room.isAvailable}">{{room.name}}</p>
-        <p>{{room.description}}</p>
-        <img src={{room.image}} class="room-image" alt="">
-        <p>price: {{room.price | currency}}</p>
-        <p>persons: {{room.persons}}</p>
-        <p>children {{room.children}}</p>
-        <div>amenities: <ul>
-                <li *ngFor="let amenity of room.amenities">{{amenity}}</li>
-            </ul>
+    <div *ngFor="let room of hotelToShow?.rooms" class="room-div">
+        <div class="room-img-and-text">
+            <div class="room-img-and-text-big-width">
+                <img src={{room.image}} class="room-image" alt="">
+                <div class="room-text">
+                    <h2 class="room-h">{{room.name}}</h2>
+                    <p class="room-price">{{room.price | currency}}</p>
+                    <p [ngClass]="room.isAvailable ? 'available' : 'not-avaiable'">{{room.isAvailable ? "Available" :
+                        'Not Avaiable'}}</p>
+                    <p>persons: {{room.persons}}; children {{room.children}}</p>
+                    <div class="description-and-ameneties big-width">
+                        <p class="room-description">{{room.description}}</p>
+                        <p><b>ameneties: {{room.amenities}}</b></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="description-and-ameneties small-width">
+                <p class="room-description">{{room.description}}</p>
+                <p><b>ameneties: {{room.amenities}}</b></p>
+            </div>
         </div>
-        <p>available: {{room.isAvailable ? "Yes" : 'No'}}</p>
-        <a [routerLink]="['/room-form',hotelToShow?.id,room.id]" class="add-btn room-btn">Edit Room</a>
-        <button (click)="onDelete(room.id)" class="delete-btn room-btn">Delete</button>
+
+        <div *ngIf="(isLoggedIn$ | async)" class="btn-div">
+            <a [routerLink]="['/room-form',hotelToShow?.id,room.id]" class="add-btn room-btn">Edit Room</a>
+            <button (click)="onDelete(room.id)" class="delete-btn room-btn">Delete</button>
+        </div>
+
     </div>
 
     <h1 *ngIf="hotelToShow?.rooms?.length == 0">There are currently no rooms</h1>
 </div>
-
-<a routerLink="/hotel-managment" class="go-back-btn">Go Back</a>

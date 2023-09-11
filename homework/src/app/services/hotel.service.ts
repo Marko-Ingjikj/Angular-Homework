@@ -127,13 +127,6 @@ export class HotelService {
             }
 
             if (
-              searchFilters.from &&
-              !hotel.country.includes(searchFilters.from)
-            ) {
-              return false;
-            }
-
-            if (
               searchFilters.roomsAvailable &&
               !hotel.rooms.some((room) => room.isAvailable)
             ) {

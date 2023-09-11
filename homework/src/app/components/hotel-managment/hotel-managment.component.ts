@@ -27,7 +27,6 @@ export class HotelManagmentComponent implements OnInit, OnDestroy {
 
   searchTerm: string = '';
   roomsAvailableFilter: boolean = false;
-  countryFromFilter: string = '';
 
   isLoggedIn$: Observable<boolean> = new Observable<boolean>();
 
@@ -41,7 +40,7 @@ export class HotelManagmentComponent implements OnInit, OnDestroy {
 
     this.hotels$ = this.store.select(hotelsSelector);
 
-    this.getFilteredHotels();
+    this.store.dispatch(getHotels());
   }
 
   getAvailableRooms(rooms: Room[]): number {
@@ -57,15 +56,9 @@ export class HotelManagmentComponent implements OnInit, OnDestroy {
   }
 
   onKeyUp(e: any) {
-    this.searchTerm = e.target.value.toLowerCase();
+    this.searchTerm = e.target.value;
     this.getFilteredHotels();
   }
-
-  changeCountryFilter(e: any) {
-    this.countryFromFilter = e.target.value;
-    this.getFilteredHotels();
-  }
-
   changeRoomsAvailableFilter(e: any) {
     this.roomsAvailableFilter = e.target.checked;
     this.getFilteredHotels();
@@ -75,8 +68,7 @@ export class HotelManagmentComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       getFilteredHotels({
         filters: {
-          searchTerm: this.searchTerm,
-          from: this.countryFromFilter,
+          searchTerm: this.searchTerm.toLowerCase(),
           roomsAvailable: this.roomsAvailableFilter,
         },
       })

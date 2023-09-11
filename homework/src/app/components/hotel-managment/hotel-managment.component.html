@@ -1,17 +1,12 @@
 <main>
 
-    <div class="hotels">
+    <div class="hotels" *ngIf="(hotels$ |async)?.length !=0">
         <div class="filters">
-            <input type="text" [value]="searchTerm" (keyup)="onKeyUp($event)" placeholder="Search hotels...">
-            <div class="search-filter">
-                <label for="country">Country:</label>
-                <select name="country" id="country" (change)="changeCountryFilter($event)">
-                    <option value="" selected>...</option>
-                </select>
-            </div>
+            <input type="text" class="search-input" [value]="searchTerm" (keyup)="onKeyUp($event)"
+                placeholder="Search hotels...">
 
             <div class="search-filter">
-                <label for="isRoomAvailable">Available Rooms</label>
+                <label for="isRoomAvailable">Available Rooms:</label>
                 <input type="checkbox" name="isRoomAvailable" id="isRoomAvailable" [checked]="roomsAvailableFilter"
                     (change)="changeRoomsAvailableFilter($event)">
             </div>
@@ -28,14 +23,23 @@
                             [ngClass]="getAvailableRooms(hotel.rooms) > 0 ? 'available' : 'not-available'">Rooms
                             available:
                             {{getAvailableRooms(hotel.rooms)}}</p>
-                        <p class="hotel-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+                        <p class="hotel-description big-width">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Nostrum
                             consequatur porro magnam corporis! Nostrum, optio, asperiores laborum distinctio pariatur
                             velit
                             odio
                             illo voluptas error eos porro eum cupiditate cum iure.</p>
                     </div>
                 </a>
-                <div *ngIf="isLoggedIn$ | async" class="btn-div">
+
+                <p class="hotel-description small-width">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Nostrum
+                    consequatur porro magnam corporis! Nostrum, optio, asperiores laborum distinctio pariatur
+                    velit
+                    odio
+                    illo voluptas error eos porro eum cupiditate cum iure.</p>
+
+                <div *ngIf="(isLoggedIn$ | async)" class="btn-div">
                     <a [routerLink]="['/hotel-form',hotel.id]" class="edit-btn hotel-btn">Edit</a>
                     <a [routerLink]="['/room-form',hotel.id]" class="add-btn hotel-btn">Add Room</a>
                     <button class="delete-btn hotel-btn" (click)="onDelete(hotel.id)">Delete</button>
@@ -43,8 +47,10 @@
             </div>
         </div>
     </div>
-
-
-
-
 </main>
+
+
+<div *ngIf="(hotels$ | async)?.length == 0" class="no-hotels-div">
+    <h1>There are currently no hotels</h1>
+    <img class="gif" src="https://media.tenor.com/_BiwWBWhYucAAAAC/what-huh.gif" alt="">
+</div>

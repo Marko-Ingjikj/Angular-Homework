@@ -24,7 +24,38 @@ export class AuthService {
     private fireAuth: AngularFireAuth,
     private firestore: AngularFirestore,
     private router: Router
-  ) {}
+  ) {
+    this.fireAuth.authState
+      .pipe(
+        mergeMap((user) => {
+          if (user) {
+            return this.firestore
+              .collection<User>('users')
+              .doc(user.uid)
+              .valueChanges();
+          } else {
+            return of(null);
+          }
+        })
+      )
+      .subscribe({
+        next: (user: User | null | undefined) => {
+          console.log('authState', user);
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+            this.updateIsLoggedIn(true);
+            this.updateUserData(user);
+          } else {
+            localStorage.setItem('user', '');
+            this.updateIsLoggedIn(false);
+            this.updateUserData(null);
+          }
+        },
+        error: (error) => {
+          console.log('authState error', error);
+        },
+      });
+  }
 
   private updateIsLoggedIn(isLoggedIn: boolean) {
     this.isLoggedIn.next(isLoggedIn);
@@ -50,35 +81,35 @@ export class AuthService {
       console.error(error);
     }
 
-    this.subscription = this.fireAuth.authState
-      .pipe(
-        mergeMap((user) => {
-          if (user) {
-            return this.firestore
-              .collection<User>('users')
-              .doc(user.uid)
-              .valueChanges();
-          } else {
-            return of(null);
-          }
-        })
-      )
-      .subscribe({
-        next: (user: User | null | undefined) => {
-          if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-            this.updateIsLoggedIn(true);
-            this.updateUserData(user);
-          } else {
-            localStorage.setItem('user', '');
-            this.updateIsLoggedIn(false);
-            this.updateUserData(null);
-          }
-        },
-        error: (error) => {
-          console.log('authState error', error);
-        },
-      });
+    // this.subscription = this.fireAuth.authState
+    //   .pipe(
+    //     mergeMap((user) => {
+    //       if (user) {
+    //         return this.firestore
+    //           .collection<User>('users')
+    //           .doc(user.uid)
+    //           .valueChanges();
+    //       } else {
+    //         return of(null);
+    //       }
+    //     })
+    //   )
+    //   .subscribe({
+    //     next: (user: User | null | undefined) => {
+    //       if (user) {
+    //         localStorage.setItem('user', JSON.stringify(user));
+    //         this.updateIsLoggedIn(true);
+    //         this.updateUserData(user);
+    //       } else {
+    //         localStorage.setItem('user', '');
+    //         this.updateIsLoggedIn(false);
+    //         this.updateUserData(null);
+    //       }
+    //     },
+    //     error: (error) => {
+    //       console.log('authState error', error);
+    //     },
+    //   });
   }
 
   async register(name: string, email: string, password: string) {

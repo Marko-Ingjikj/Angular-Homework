@@ -6,6 +6,7 @@ import { HotelState } from 'src/app/interfaces/hotel-state.interface';
 import { Hotel } from 'src/app/interfaces/hotel.interface';
 import { deleteRoom } from 'src/app/store/hotels/hotels.actions';
 import { hotelsSelector } from 'src/app/store/hotels/hotels.selectors';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-hotel-details',
@@ -17,13 +18,18 @@ export class HotelDetailsComponent implements OnInit, OnDestroy {
   hotelToShow: Hotel | undefined;
   hotels$: Observable<Hotel[]> = new Observable<Hotel[]>();
 
+  isLoggedIn$: Observable<boolean> = new Observable<boolean>();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<HotelState>
+    private store: Store<HotelState>,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+
     this.subscription = this.route.params
       .pipe(
         map((params) => params['id']),

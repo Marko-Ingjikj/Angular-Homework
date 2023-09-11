@@ -2,24 +2,39 @@ li {
   list-style-position: inside;
 }
 
-.room-div {
-  width: 350px;
-  padding: 15px;
-  border: 1px solid red;
+.rooms-div {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  width: 80%;
+  margin: auto;
+  justify-content: center;
+  gap: 10px;
 }
 
-.room-p {
-  color: red;
+.room-div {
+  padding: 15px;
+  border: 1px solid gray;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  font-size: large;
+  height: 250px;
 }
 
-.available {
-  border: 1px solid greenyellow;
+.room-img-and-text {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.available-p {
-  color: greenyellow;
+
+.btn-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .room-btn {
@@ -27,17 +42,83 @@ li {
   cursor: pointer;
   color: white;
   padding: 6px;
-  width: fit-content;
+  width: 100px;
+  text-align: center;
 }
 
 .room-image {
-  width: 100%;
-  height: 250px;
+  width: 300px;
+  height: 100%;
+  border-radius: 8px;
 }
 
-.btn-div {
+.amenities {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 20px;
+}
+
+.available {
+  color: greenyellow;
+}
+
+.not-avaiable {
+  color: red;
+}
+
+.room-price {
+  color: peru;
+}
+
+.back-and-header {
+  display: flex;
+  align-items: center;
+}
+
+.small-width {
+  display: none;
+}
+
+.room-img-and-text-big-width {
+  display: flex;
+  gap: 10px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .room-div {
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  .btn-div {
+    flex-direction: row;
+  }
+
+  .room-img-and-text {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .big-width {
+    display: none;
+  }
+
+  .small-width {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .room-image {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .rooms-div {
+    width: 90%;
+  }
+  .room-div {
+    font-size: 14px;
+  }
 }

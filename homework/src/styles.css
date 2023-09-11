@@ -15,11 +15,15 @@ a {
 }
 
 .go-back-btn {
-  background-color: burlywood;
   cursor: pointer;
   padding: 5px;
   margin: 10px;
-  border: 1px solid coral;
+  border: 1px solid black;
+  transition: 0.2s;
+}
+
+.go-back-btn:hover {
+  background-color: darkcyan;
 }
 
 .edit-btn {
@@ -34,6 +38,11 @@ a {
   background-color: coral;
 }
 
+.form-main {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
 .form {
   display: flex;
   flex-direction: column;
@@ -41,7 +50,11 @@ a {
   justify-content: flex-start;
   padding: 20px;
   gap: 15px;
-  width: 500px;
+  width: fit-content;
+  background-color: aliceblue;
+  border-radius: 8px;
+  border: 1px solid gray;
+  box-shadow: -3px -3px 7px #ffffff73, 2px 2px 5px rgba(94, 104, 121, 0.288);
 }
 
 .form-div {
@@ -71,4 +84,10 @@ a {
 
 .error {
   color: red;
+}
+
+@media only screen and (max-width: 350px) {
+  .form {
+    width: 310px;
+  }
 }

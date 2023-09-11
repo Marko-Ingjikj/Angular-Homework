@@ -76,6 +76,12 @@ The main goal of this homework is to go thought all the steps of creating a new 
 - (optional) Implement NGRX
 - Use Firebase
 
+## Task 6:
+
+- Implement Authentication
+- Users should be able to register and login to the app
+- Add admin role. Admin users are the only ones who can add and edit hotels & hotel rooms
+
 <hr>
 
 # Homework1
